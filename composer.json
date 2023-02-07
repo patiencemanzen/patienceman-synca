@@ -1,0 +1,47 @@
+{
+    "name": "patienceman/notifier",
+    "description": "Laravel notification helper package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "role": "Laravel/PHP Developer",
+            "name": "manirabona-programer",
+            "email": "hseal419@gmail.com",
+            "homepage": "https://www.juststeveking.uk/"
+        }
+    ],
+    "keywords": [
+        "php",
+        "laravel",
+        "notification",
+        "notifier",
+        "database notification"
+    ],
+    "autoload": {
+        "psr-4": {
+          "Patienceman\\Notifier\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "illuminate/queue": "9.x-dev",
+        "illuminate/support": "9.x-dev"
+    },
+    "extra": {
+      "laravel": {
+          "providers": [
+              "Patienceman\\Notifier\\NotifierServiceProvider"
+          ],
+          "aliases": {
+              "Notifier": "Patienceman\\Notifier\\Facades\\Notifier"
+          }
+      }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    }
+}
