@@ -1,6 +1,6 @@
 {
     "name": "patienceman/notifier",
-    "description": "Laravel notification helper package",
+    "description": "Provide a convenient way to interact with Notifications, including Emails, Dbnotification, and one signal notifications, it just helps your declaration and interaction easier.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -8,7 +8,7 @@
             "role": "Laravel/PHP Developer",
             "name": "manirabona-programer",
             "email": "hseal419@gmail.com",
-            "homepage": "https://www.juststeveking.uk/"
+            "homepage": "https://github.com/manirabona-programer"
         }
     ],
     "keywords": [
