@@ -24,9 +24,7 @@
         }
     },
     "require": {
-        "php": "^8.0",
-        "illuminate/queue": "9.x-dev",
-        "illuminate/support": "9.x-dev"
+        "php": "^8.0"
     },
     "extra": {
       "laravel": {
