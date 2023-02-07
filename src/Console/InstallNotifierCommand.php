@@ -64,15 +64,17 @@
 public function getFileInitialContents($namespace, $className) {
     return "<?php
     namespace $namespace;
-    
+
     use Patienceman\Notifier\NotifyHandler;
 
     class {$className} extends NotifyHandler {
         /**
-         * public function handle() {
-         *     // do whatever action inside handler
-         * }
+         * {$className} handler
+         * @return void
          */
+        public function handle() {
+            // do whatever action inside handler
+        }
     }
     ";
 }
