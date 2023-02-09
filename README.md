@@ -81,7 +81,7 @@ class CandidateController extends Controller {
 
 }
 ```
-Boom Boom, from now on, we are able send our email notification anytime, any place.
+Boom Boom 🎉, from now on, we are able send our email notification anytime, any place.
 So there is many feature comes with notifier, includes ```onQueue() ``` ```to($user1, $user2, ....) ```: let take a look;
 
 ```PHP
@@ -101,6 +101,12 @@ class CandidateController extends Controller {
     }
 
 }
+```
+So to access the passed users you need to just call one by one using indexes: for **example**:
+with ```php ->to($user, $user2); ```
+```PHP
+$this->user_1;
+$this->user_2;
 ```
 
 This is so cool, but there might be a time where you need to queue all notifier, not single one like above, let see how:
@@ -150,10 +156,10 @@ class EmailNotification extends NotifyHandler {
 ```
 There is tile also you want to send notification to all recipients without chose who: by just use function 
 ```bash 
-$this->foreachRecipient() 
+$this->foreachUser() 
 ```
 ```PHP 
-$this->foreachRecipient(fn($user) => $this->dbNotification($user, $this)); 
+$this->foreachUser(fn($user) => $this->dbNotification($user, $this)); 
 ```
 
 You held this function right!!?, This function can be used in Laravel DBNotification to store custom notification in table:
@@ -173,7 +179,7 @@ class DatabaseNotification extends NotifyHandler {
      * @return mixed
      */
     public function handle() {
-        $this->foreachRecipient(fn($user) => $this->dbNotification($user, $this));
+        $this->foreachUser(fn($user) => $this->dbNotification($user, $this));
     }
 
     /**
@@ -190,10 +196,18 @@ class DatabaseNotification extends NotifyHandler {
 }
 ```
 
+# Hi!👋🏼, Am Manirabona Patience🤴🏽
+Software Developer (Php, Laravel, and Javascript), with 6+ years of experience, Am passionate about creating quality applications, and Never tired of learning, creating, and building,  I've been collaborating and contributing with different Teams and companies to develop their products from ideas up to Marketplace, including open source projects.
+When am not working on technology, Patience loves watching documentaries, reading and writing books, traveling and exploring, history and psychology, Photograph, Painting, Playing Piano, and enjoys hanging out with devs But Mountains are better!
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+## Connect with Me
+<p align="center">
+	<a href="https://www.linkedin.com/in/manirabona-patience-3b08051b4"><img alt="Linkedin" title="Manirabona patience Linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a>
+  <a href="https://github.com/manirabona-programer/manirabona-programer"><img alt="Github" title="Manirabona patience Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
+  <a href="https://www.instagram.com/manirabona_walker"><img alt="Instagram" title="Manirabona Patience Instagram" src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"></a>
+	  <a href="https://twitter.com/ManirabonaW"><img alt="Twitter" title="Manirabona Patience Twitter" src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"></a>
+	  </p>
