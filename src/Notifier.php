@@ -1,6 +1,9 @@
 <?php
     namespace Patienceman\Notifier;
 
+    use Patienceman\Notifier\NotifyQueuer;
+    use Patienceman\Notifier\NotifyHandler;
+
     class Notifier {
         /**
          * All notification handlers
