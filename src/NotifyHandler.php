@@ -83,6 +83,7 @@
         public function assocUsers($users) {
             foreach ($users as $key => $param) {
                 $formatted['user_'.$key+1] = $param;
+                $this->offsetSet('user_'.$key+1, $param);
             }
             return $formatted;
         }

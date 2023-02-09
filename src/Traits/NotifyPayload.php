@@ -6,7 +6,10 @@
          * Get all packed data
          */
         public function payload() :object {
-            return $this->resource;
+            return (Object) array_diff_key(
+                (Array) $this->resource,
+                $this->notifiables
+            );
         }
 
         /**
@@ -14,6 +17,6 @@
          * @return array
          */
         public function toArray() :array {
-            return (Array) $this->resource;
+            return (Array) $this->payload();
         }
     }
