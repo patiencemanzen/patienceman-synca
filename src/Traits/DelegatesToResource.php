@@ -82,7 +82,7 @@
          * @return void
          */
         public function offsetSet($offset, $value): void {
-            $this->resource[$offset] = $value;
+            $this->resource->$offset = $value;
         }
 
         /**
