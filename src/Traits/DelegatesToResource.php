@@ -1,6 +1,6 @@
 <?php
 
-    namespace Patienceman\Notifier\Traits;
+    namespace Patienceman\Synca\Traits;
 
     use Exception;
     use Illuminate\Support\Traits\ForwardsCalls;
@@ -122,7 +122,9 @@
          * @return mixed
          */
         public function __get($key) {
-            return $this->resource->{$key};
+            return (isset($this->resource->{$key}))
+                ? $this->resource->{$key}
+                : throw new \RuntimeException("Property '$key' does not exist.");
         }
 
         /**
@@ -134,7 +136,7 @@
          */
         public function __call($method, $parameters) {
             if($method == 'to')
-                return $this->users($this->assocUsers($parameters));
+                return $this->users($parameters[0]);
 
             if (static::hasMacro($method)) {
                 return $this->macroCall($method, $parameters);

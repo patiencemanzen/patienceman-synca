@@ -1,4 +1,4 @@
-# Patienceman | Notifier
+# Patienceman | Synca | Notifier
 
 Provide a convenient way to interact with Notifications, including Emails, Dbnotification, and one signal notifications,
 it just helps your declaration and interaction easier.
@@ -8,7 +8,7 @@ it just helps your declaration and interaction easier.
 Install the package doesn't require much requirement except to use the following command in the laravel terminal,  and you're good to go.
 
 ```bash
-composer require patienceman/notifier
+composer require patienceman/synca
 ```
 
 > Before get started let first create Queue table and Notifications:
@@ -16,7 +16,6 @@ composer require patienceman/notifier
 > ```bash  
 > php artisan queue:table
 > php artisan notification:table
->  
 > php artisan migrate
 > ```
 >
@@ -35,29 +34,31 @@ in your custom directories:
 php artisan make:notifier EmailNotification
 ```
 
-so it will create the filter file for u, Just in
+so it will create the filter file for you, Just in **Notifiers** directory
 
 ```php
 App\Notifiers
 ```
 
+But in this doc, we'll be using 
+>``` App\Notifications ```
+
 ```PHP
 namespace App\Notifications;
 
-use Patienceman\Notifier\NotifyHandler;
+use Patienceman\Synca\NotifyHandler;
 
 class EmailNotification extends NotifyHandler {
     /**
      * Execute notification actions
+     * 
      * @return mixed
      */
-   public function handle() {
-          // do whatever action inside handler
-   }
+    public function handle() {
+        // do whatever action inside handler
+    }
 }
 ```
-
-:fire: :fire: What best move we make: in the world!!
 
 So you may want even to specify the custom path for your Notifier, Just relax and add it in front of your notifier name.
 Let's take again our current example.
@@ -66,8 +67,6 @@ Let's take again our current example.
 php artisan make:notifier Model/EmailNotification
 ```
 
-:wave: :wave: That is just what magic can make, awesome right!!?
-
 To communicate/use your Notifier, you only need to call Notifier class,
 Let take a quick example in our CandidateController class to notify about application between creator and seeker
 
@@ -75,35 +74,59 @@ Let take a quick example in our CandidateController class to notify about applic
 namespace App\Http\Controllers;
 
 use App\Notifications\EmailNotification;
-use Patienceman\Notifier\Notifier;
+use Patienceman\Synca\Facades\Notifier;
 
-class CandidateController extends Controller {
+class UsersController extends Controller {
 
-    public function application(Notifier $notifier) {
+    /**
+     * Handle User Notifications
+     */
+    public function notifications(Notifier $notifier) {
+        // ... Other Codes
+
         $notifier->send([
-            EmailNotification::process([ 'message' => 'Application sent to job sent' ]),
+            EmailNotification::process([ 
+                'message' => 'Application sent to job sent' 
+            ]),
         ]);
     }
 
 }
 ```
 
-Boom Boom 🎉, from now on, we are able send our email notification anytime, any place.
-So there is many feature comes with notifier, includes ```onQueue()``` ```to($user1, $user2, ....)```: let take a look;
+Now on, we are able send our email notification anytime, any place.
+So there is many feature comes with notifier, includes
+>```->onQueue()```
+
+>```->to($user1, $user2, ....)```
+
+let take a look:
 
 ```PHP
 namespace App\Http\Controllers;
 
 use App\Notifications\EmailNotification;
-use Patienceman\Notifier\Notifier;
+use Patienceman\Synca\Facades\Notifier;
 
-class CandidateController extends Controller {
+class UsersController extends Controller {
+    /**
+     * Handle User Notifications
+     */
+    public function notifications(Notifier $notifier, User $user) {
+        // ... Other Codes
 
-    public function application(Notifier $notifier, User $user) {
-        $jobCreator = Application::findById('1')->belongsToCompany()->user_id;
+        $application = Application::findById('1')->belongsToCompany()->user_id;
+        $notification = [ 'message' => 'Application sent to job sent' ];
+        
+        $users = [
+            'user' => $user
+            'applicant' => $application
+        ];
 
         $notifier->send([
-            EmailNotification::process([ 'message' => 'Application sent to job sent' ])->to($user, $jobCreator)->onQueue(),
+            EmailNotification::process($notification)
+                ->to($users)
+                ->onQueue(),
         ]);
     }
 
@@ -111,11 +134,12 @@ class CandidateController extends Controller {
 ```
 
 So to access the passed users you need to just call one by one using indexes: for **example**:
-with ```php ->to($user, $user2);```
+with 
+>``` ->to($users);```
 
 ```PHP
-$this->user_1;
-$this->user_2;
+$this->user;
+$this->applicant;
 ```
 
 This is so cool, but there might be a time where you need to queue all notifier, not single one like above, let see how:
@@ -126,16 +150,22 @@ namespace App\Http\Controllers;
 
 use App\Notifications\EmailNotification;
 use App\Notifications\OneSignalNotification;
-use Patienceman\Notifier\Notifier;
+use Patienceman\Synca\Facades\Notifier;
 
-class CandidateController extends Controller {
+class UsersController extends Controller {
 
-    public function application(Notifier $notifier, User $user) {
-        $jobCreator = Application::findById('1')->belongsToCompany()->user_id;
+    public function notifications(Notifier $notifier, User $user) {
+        $application = Application::findById('1')->belongsToCompany()->user_id;
+        $notification = [ 'message' => 'Application sent to job sent' ];
+        
+        $users = [
+            'user' => $user
+            'applicant' => $application
+        ];
 
         $notifier->send([
-            EmailNotification::process([ 'message' => 'Application sent to job sent' ])->to($user, $jobCreator),
-            OneSignalNotification::process([ 'message' => 'Application sent to job sent' ])->to($user),
+            EmailNotification::process($notification)->to($users),
+            OneSignalNotification::process($notification)->to($user),
         ])->onQueue();
     }
 
@@ -147,12 +177,9 @@ As u see above, we're working with payloads to notifier, Let see how to get all 
 ```PHP
 namespace App\Notifications;
 
-use Patienceman\Notifier\NotifyHandler;
-use Patienceman\Notifier\Traits\NotifyPayload;
+use Patienceman\Synca\NotifyHandler;
 
 class EmailNotification extends NotifyHandler {
-    use NotifyPayload;
-
     /**
      * Execute notification actions
      * @return mixed
@@ -172,7 +199,7 @@ $this->foreachUser()
 ```
 
 ```PHP
-$this->foreachUser(fn($user) => $this->dbNotification($user, $this)); 
+$this->foreachUser(fn($user) => $this->sendToDatabase($user)); 
 ```
 
 You held this function right!!?, This function can be used in Laravel DBNotification to store custom notification in table:
@@ -182,18 +209,17 @@ So let see full implementation:
 ```PHP
 namespace App\Notifications;
 
-use Patienceman\Notifier\NotifyHandler;
-use Patienceman\Notifier\Traits\NotifyPayload;
+use Patienceman\Synca\NotifyHandler;
 
 class DatabaseNotification extends NotifyHandler {
-    use NotifyPayload;
-
     /**
      * Execute notification
      * @return mixed
      */
     public function handle() {
-        $this->foreachUser(fn($user) => $this->dbNotification($user, $this));
+        $this->foreachUser(
+            fn($user) => $this->sendToDatabase($user, $this)
+        );
     }
 
     /**
@@ -213,14 +239,4 @@ class DatabaseNotification extends NotifyHandler {
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
 Please make sure to update tests as appropriate.
-
-## Connect with Me
-
-<p align="center">
-	<a href="https://www.linkedin.com/in/manirabona-patience-3b08051b4"><img alt="Linkedin" title="Manirabona patience Linkedin" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a>
-  <a href="https://github.com/manirabona-programer/manirabona-programer"><img alt="Github" title="Manirabona patience Github" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
-  <a href="https://www.instagram.com/manirabona_walker"><img alt="Instagram" title="Manirabona Patience Instagram" src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"></a>
-	  <a href="https://twitter.com/ManirabonaW"><img alt="Twitter" title="Manirabona Patience Twitter" src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white"></a>
-	  </p>

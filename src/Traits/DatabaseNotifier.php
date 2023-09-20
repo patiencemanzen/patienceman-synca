@@ -1,5 +1,5 @@
 <?php
-    namespace Patienceman\Notifier\Traits;
+    namespace Patienceman\Synca\Traits;
 
     use Illuminate\Notifications\Notification;
     use Exception;
