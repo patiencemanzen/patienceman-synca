@@ -1,13 +1,13 @@
 <?php
 
-    namespace Patienceman\Notifier;
+    namespace Patienceman\Synca;
 
     use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
     use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Queue\SerializesModels;
-    use Patienceman\Notifier\NotifyHandler;
+    use Patienceman\Synca\NotifyHandler;
 
     class NotifyQueuer implements ShouldQueue {
         use Dispatchable,

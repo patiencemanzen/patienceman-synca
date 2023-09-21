@@ -1,5 +1,5 @@
 <?php
-    namespace Patienceman\Notifier\Traits;
+    namespace Patienceman\Synca\Traits;
 
     trait NotifyPayload {
         /**
@@ -16,7 +16,7 @@
          * Get all packed data in array format
          * @return array
          */
-        public function toArray() :array {
+        public function payloadAsArray() :array {
             return (Array) $this->payload();
         }
     }

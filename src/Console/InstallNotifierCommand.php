@@ -1,6 +1,6 @@
 <?php
 
-    namespace Patienceman\Notifier\Console;
+    namespace Patienceman\Synca\Console;
 
     use Illuminate\Console\Command;
     use Illuminate\Support\Str;
@@ -65,7 +65,7 @@ public function getFileInitialContents($namespace, $className) {
     return "<?php
     namespace $namespace;
 
-    use Patienceman\Notifier\NotifyHandler;
+    use Patienceman\Synca\NotifyHandler;
 
     class {$className} extends NotifyHandler {
         /**

@@ -1,46 +1,46 @@
 {
-    "name": "patienceman/notifier",
-    "description": "Provide a convenient way to interact with Notifications, including Emails, Dbnotification, and one signal notifications, it just helps your declaration and interaction easier.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "role": "Laravel/PHP Developer",
-            "name": "manirabona-programer",
-            "email": "hseal419@gmail.com",
-            "homepage": "https://github.com/manirabona-programer"
-        }
-    ],
-    "keywords": [
-        "php",
-        "laravel",
-        "notification",
-        "notifier",
-        "database notification"
-    ],
-    "autoload": {
-        "psr-4": {
-          "Patienceman\\Notifier\\": "src/"
-        }
-    },
-    "require": {
-        "php": "^8.0",
-        "kakaprodo/custom-data": "dev-develop"
-    },
-    "extra": {
-      "laravel": {
-          "providers": [
-              "Patienceman\\Notifier\\NotifierServiceProvider"
-          ],
-          "aliases": {
-              "Notifier": "Patienceman\\Notifier\\Facades\\Notifier"
-          }
-      }
-    },
-    "minimum-stability": "dev",
-    "config": {
-        "sort-packages": true,
-        "preferred-install": "dist",
-        "optimize-autoloader": true
+  "name": "patienceman/synca",
+  "description": "Provide a convenient way to interact with Notifications, including Emails, Dbnotification, and one signal notifications, it just helps your declaration and interaction easier.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "role": "PHP/Laravel Developer",
+      "name": "manirabona-patience",
+      "email": "hseal419@gmail.com",
+      "homepage": "https://github.com/Patience-man"
     }
+  ],
+  "keywords": [
+    "php",
+    "laravel",
+    "notification",
+    "notifier",
+    "database notification"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Patienceman\\Synca\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.4|^8.0",
+    "kakaprodo/custom-data": "^1.9"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Patienceman\\Synca\\NotifierServiceProvider"
+      ],
+      "aliases": {
+        "Notifier": "Patienceman\\Synca\\Facades\\Notifier"
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true,
+    "preferred-install": "dist",
+    "optimize-autoloader": true
+  }
 }

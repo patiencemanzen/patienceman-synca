@@ -1,13 +1,16 @@
 <?php
-    namespace Patienceman\Notifier;
+    namespace Patienceman\Synca;
 
-    use Patienceman\Notifier\Traits\DatabaseNotifier;
-    use Patienceman\Notifier\Traits\DelegatesToResource;
+    use Exception;
+    use Patienceman\Synca\Traits\DatabaseNotifier;
+    use Patienceman\Synca\Traits\DelegatesToResource;
     use Illuminate\Notifications\Notification;
+    use Patienceman\Synca\Traits\NotifyPayload;
 
-    abstract class NotifyHandler extends Notification {
+    abstract class NotifyHandler {
         use DelegatesToResource,
-            DatabaseNotifier;
+            DatabaseNotifier,
+            NotifyPayload;
 
         /**
          * Instance resource holder
@@ -62,7 +65,13 @@
          * @return NotifyHandler
          */
         public function users($users) {
-            $this->notifiables = $users;
+            if($users) {
+                foreach ($users as $key => $param) {
+                    $this->offsetSet($key, $param);
+                }
+                $this->notifiables = $users;
+            }
+
             return $this;
         }
 
@@ -75,28 +84,30 @@
         }
 
         /**
-         * Format user params
-         *
-         * @param array $users
-         * @return array
-         */
-        public function assocUsers($users) {
-            foreach ($users as $key => $param) {
-                $formatted['user_'.$key+1] = $param;
-                $this->offsetSet('user_'.$key+1, $param);
-            }
-            return $formatted;
-        }
-
-        /**
          * Perfom some action to all users
          *
          * @param callable $handler
          * @return void
          */
         public function foreachUser(callable $handler) {
-            foreach($this->recipients() as $reciever){
-                $handler($reciever);
+            if ($this->recipients()) {
+                foreach($this->recipients() as $reciever) {
+                    $handler($reciever);
+                }
             }
+        }
+
+        public function sendToDatabase($notifiable) {
+            if(!$notifiable) throw new Exception('Unable to find notifiable');
+            $data = $this->toDatabase($notifiable);
+
+            return $notifiable->routeNotificationFor('database')->create([
+                'id' => substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 15),
+                'type' => (new \ReflectionClass($this))->getNamespaceName(),
+                'notifiable_type' => (new \ReflectionClass($notifiable))->getNamespaceName(),
+                'notifiable_id' => $notifiable->id,
+                'data' => $data,
+                'read_at' => null,
+            ]);
         }
     }

@@ -1,8 +1,9 @@
 <?php
-    namespace Patienceman\Notifier;
+    namespace Patienceman\Synca;
 
-    use Patienceman\Notifier\NotifyQueuer;
-    use Patienceman\Notifier\NotifyHandler;
+    use Patienceman\Synca\NotifyQueuer;
+    use Patienceman\Synca\NotifyHandler;
+    use Patienceman\Synca\Traits\DelegatesToResource;
 
     class Notifier {
         /**
@@ -29,7 +30,7 @@
          * Send custom notification from notification handler
          * @param mixed notification
          */
-        public function send(mixed $notification) {
+        public function handle(mixed $notification) {
             return $this->resolveNotifiers(...func_get_args())->dispatch();
         }
 

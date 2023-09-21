@@ -1,5 +1,5 @@
 <?php
-    namespace Patienceman\Notifier\Facades;
+    namespace Patienceman\Synca\Facades;
 
     use Illuminate\Support\Facades\Facade;
 
