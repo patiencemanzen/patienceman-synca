@@ -1,4 +1,4 @@
-# Patienceman | Synca | Notifier
+# Patienceman 🪴 Notification
 
 Provide a convenient way to interact with Notifications, including Emails, Dbnotification, and one signal notifications,
 it just helps your declaration and interaction easier.
@@ -203,7 +203,6 @@ $this->foreachUser(fn($user) => $this->sendToDatabase($user));
 ```
 
 You held this function right!!?, This function can be used in Laravel DBNotification to store custom notification in table:
-
 So let see full implementation:
 
 ```PHP
@@ -229,9 +228,31 @@ class DatabaseNotification extends NotifyHandler {
      * @return array
      */
     public function toDatabase($notifiable) {
-        return [
-            'custom' => $this->message,
-        ];
+        return $this->payloadAsArray();
+    }
+}
+```
+
+or use customized way:
+
+```PHP
+namespace App\Notifications;
+
+use Patienceman\Synca\NotifyHandler;
+
+class DatabaseNotification extends NotifyHandler {
+    /**
+     * Execute notification
+     * @return mixed
+     */
+    public function handle() {
+        $this->foreachUser(function($user) {
+            $this->dbNotification($user, fn ($notifiable) => [
+                'header' => $this->subject,
+                'message' => $this->message,
+                'action' => $this->action,
+            ]);
+        });
     }
 }
 ```
