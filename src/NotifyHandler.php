@@ -4,7 +4,6 @@
     use Exception;
     use Patienceman\Synca\Traits\DatabaseNotifier;
     use Patienceman\Synca\Traits\DelegatesToResource;
-    use Illuminate\Notifications\Notification;
     use Patienceman\Synca\Traits\NotifyPayload;
 
     abstract class NotifyHandler {
@@ -62,9 +61,10 @@
 
         /**
          * Register single queue instance
+         *
          * @return NotifyHandler
          */
-        public function users($users) {
+        public function users(array $users) {
             if($users) {
                 foreach ($users as $key => $param) {
                     $this->offsetSet($key, $param);
