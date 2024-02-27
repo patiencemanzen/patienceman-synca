@@ -84,7 +84,7 @@ class UsersController extends Controller {
     public function notifications(Notifier $notifier) {
         // ... Other Codes
 
-        $notifier->send([
+        $notifier->handle([
             EmailNotification::process([ 
                 'message' => 'Application sent to job sent' 
             ]),
@@ -123,7 +123,7 @@ class UsersController extends Controller {
             'applicant' => $application
         ];
 
-        $notifier->send([
+        $notifier->handle([
             EmailNotification::process($notification)
                 ->to($users)
                 ->onQueue(),
@@ -163,7 +163,7 @@ class UsersController extends Controller {
             'applicant' => $application
         ];
 
-        $notifier->send([
+        $notifier->handle([
             EmailNotification::process($notification)->to($users),
             OneSignalNotification::process($notification)->to($user),
         ])->onQueue();
