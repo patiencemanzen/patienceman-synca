@@ -1,8 +1,8 @@
 <?php
     namespace Patienceman\Synca\Traits;
 
-    use Illuminate\Notifications\Notification;
     use Exception;
+    use Patienceman\Synca\NotifyHandler;
 
     trait DatabaseNotifier {
         /**
@@ -22,17 +22,15 @@
          * @param  \Illuminate\Notifications\Notification  $notification
          * @return \Illuminate\Database\Eloquent\Model
          */
-        public function dbNotification($notifiable, Notification $notification) {
+        public function dbNotification($notifiable, callable $notification) {
             if(!$notifiable) throw new Exception('Unable to find notifiable');
-
-            $data = $notification->toDatabase($notifiable);
 
             return $notifiable->routeNotificationFor('database')->create([
                 'id' => substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 15),
                 'type' => (new \ReflectionClass($this))->getNamespaceName(),
                 'notifiable_type' => (new \ReflectionClass($notifiable))->getNamespaceName(),
                 'notifiable_id' => $notifiable->id,
-                'data' => $data,
+                'data' => $notification($notifiable),
                 'read_at' => null,
             ]);
         }
