@@ -165,7 +165,7 @@ class UsersController extends Controller {
 
         $notifier->handle([
             EmailNotification::process($notification)->to($users),
-            OneSignalNotification::process($notification)->to($user),
+            OneSignalNotification::process($notification)->to([$user]),
         ])->onQueue();
     }
 
