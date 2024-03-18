@@ -25,7 +25,7 @@
   },
   "require": {
     "php": "^7.4|^8.0",
-    "kakaprodo/custom-data": "2.2"
+    "kakaprodo/custom-data": "^2.0"
   },
   "extra": {
     "laravel": {
